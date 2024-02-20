@@ -360,7 +360,7 @@ app.delete(
     const { payload } = request;
     let { user_id, name, username, gender } = payload;
     const getTheTweetQuery = `SELECT * FROM tweet WHERE user_id ='${user_id}'AND tweet_id = '${tweetId}';`;
-    const tweetUser = await db.all(getTheTweetQuery);
+    const tweetUser = await database.all(getTheTweetQuery);
     if (tweetUser.length !== 0) {
       const deleteTweetQuery = `
         DELETE FROM tweet
