@@ -147,8 +147,8 @@ app.get("/user/following/", authenticationToken, async (request, response) => {
   const getUserIdQuery = `select user_id from user where username='${username}';`;
   const getUserId = await database.get(getUserIdQuery);
 
-  const getFollowerIdsQuery = `select following_user_if from follower
-    where follower_user_id=${getUserId.user_id};`;
+  const getFollowingIdsQuery = `select following_user_id from follower
+                            where follower_user_id=${getUserId.user_id};`;
   const getFollowerIdsArray = await database.all(getFollowerIdsQuery);
   const getFollowerIds = getFollowerIdsArray.map((eachUser) => {
     return eachUser.following_user_id;
@@ -163,7 +163,7 @@ app.get("/user/following/", authenticationToken, async (request, response) => {
 
 app.get("/user/followers/", authenticationToken, async (request, response) => {
   let { username } = request;
-  const getUserIdQuery = `select user_id from user where username='${username};`;
+  const getUserIdQuery = `select user_id from user where username='${username}';`;
   const getUserId = await database.get(getUserIdQuery);
 
   const getFollowerIdsQuery = `select follower_user_id from follower where following_user_id=${getUserId.user_id};`;
