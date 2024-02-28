@@ -120,11 +120,21 @@ app.get(
     //console.log(`${getUserIds}`);
     //query
 
-    const getTweetQuery = `select user.username, tweet.tweet, tweet.date_time as dataTime
-    from user inner join tweet
-    on user.user_id = tweet.user_id where user.user_id in (${getFollowerIdsSimple})
-    order by tweet.date_time desc limit 4 ;`;
-    const responseResult = await database.all(getTweetQuery);
+  const tweetsQuery = `
+SELECT
+user.username, tweet.tweet, tweet.date_time AS dateTime
+FROM
+follower
+INNER JOIN tweet
+ON follower.following_user_id = tweet.user_id
+INNER JOIN user
+ON tweet.user_id = user.user_id
+WHERE
+follower.follower_user_id = ${getFollowerIdsSimple}
+ORDER BY
+tweet.date_time DESC
+LIMIT 4;`;
+    const responseResult = await database.all(tweetsQuery);
     // console.log(responseResult);
     response.send(responseResult);
   }
